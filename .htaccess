@@ -1,0 +1,33 @@
+<IfModule mod_rewrite.c>
+
+ RewriteEngine On
+
+Options -MultiViews -Indexes
+
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Redirect Trailing Slashes If Not A Folder...
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
+
+# Handle Front Controller...
+RewriteCond %{REQUEST_URI} !(\.css|\.pdf|\.m4v|\.js|\.png|\.jpg|\.gif|\.svg|\.webp|\.woff|\.ttf|\.woff2|\.min.css|robots\
+.txt)$ [NC]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(pdf|images|favicons|assets)/(.*)$ public/$1/$2 [L,NC]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^/storage/app/public/
+RewriteRule ^(curriculo)/(.*)$ storage/app/public/$1/$2 [L,NC]
+
+</ifModule>
